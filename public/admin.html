@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white p-6 rounded shadow-md w-3/4">
+        <h2 class="text-xl font-bold mb-4">Admin Panel - Contact Messages</h2>
+        <table class="table-auto w-full border-collapse border border-gray-200">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border p-2">Name</th>
+                    <th class="border p-2">Email</th>
+                    <th class="border p-2">Message</th>
+                </tr>
+            </thead>
+            <tbody id="messageTable"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchMessages() {
+            const res = await fetch("/messages");
+            const data = await res.json();
+
+            const tableBody = document.getElementById("messageTable");
+            tableBody.innerHTML = "";
+
+            data.data.forEach(msg => {
+                const row = `<tr>
+                    <td class="border p-2">${msg.name}</td>
+                    <td class="border p-2">${msg.email}</td>
+                    <td class="border p-2">${msg.message}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        fetchMessages();
+    </script>
+</body>
+</html>
